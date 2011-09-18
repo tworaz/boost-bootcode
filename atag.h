@@ -27,20 +27,44 @@
  * SUCH DAMAGE.
  */
 
-OUTPUT_FORMAT("elf32-littlearm", "elf32-bigarm", "elf32-littlearm")
-OUTPUT_ARCH(arm)
+#ifndef _ATAG_H_
+#define _ATAG_H_
 
-SECTIONS
-{
-	.text . : {
-		*(.text)
-	}
+/*
+ * ATAG list is used by the bootloader to pass kernel some initial
+ * configuration hints along with startup arguments.
+ *
+ *            ATAG entry:
+ * 0x0 +-----------------------+
+ *     |       TAG Size        |
+ * 0x4 +-----------------------+
+ *     |       TAG ID          |
+ * 0x8 +-----------------------+
+ *     |                       |
+ *     |      TAG Size - 2     |
+ *     |      words of data    |
+ *     |                       |
+ *     +-----------------------+
+ */
 
-	. = ALIGN(4);
+/* Empty tag used to end the list */
+#define ATAG_NONE		0x00000000
+#define ATAG_NONE_SIZE		2
 
-	.data . : {
-		*(.data)
-	}
+/* Start tag used to begin the list */
+#define ATAG_CORE		0x54410001
+#define ATAG_CORE_SIZE		5 /* Size of 2 is also possible */
 
-	/DISCARD/ : { *(.*) }
-}
+/* Tag used to describe physical area of memory */
+#define ATAG_MEM		0x54410002
+#define ATAG_MEM_SIZE		4
+
+/* Tag describing physical location of ramdisk image */
+#define ATAG_INITRD2		0x54420005
+#define ATAG_INITRD2_SIZE	4
+
+/* Tag used to pass command line arguments to the kernel */
+#define ATAG_CMDLINE		0x54410009
+#define ATAG_CMDLINE_SIZE(cl)	(2 + ((cl + 3) / 4))
+
+#endif /* !_ATAG_H_ */

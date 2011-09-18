@@ -27,20 +27,18 @@
  * SUCH DAMAGE.
  */
 
-OUTPUT_FORMAT("elf32-littlearm", "elf32-bigarm", "elf32-littlearm")
-OUTPUT_ARCH(arm)
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
 
-SECTIONS
-{
-	.text . : {
-		*(.text)
-	}
+#define PXA_UART_BASE		0x40100000
+#define PXA_CLKMAN_BASE		0x41300000
 
-	. = ALIGN(4);
+#define PAGE_SIZE		4096
 
-	.data . : {
-		*(.data)
-	}
+#define MEMORY_START		0xa0000000
+#define MEMORY_SIZE		(128 * 1024 * 1024)
 
-	/DISCARD/ : { *(.*) }
-}
+#define INITRD_LOAD_ADDR	0xa1000000
+#define INITRD_DEF_SIZE		(16*1024*1024)
+
+#endif /* !_CONFIG_H_ */

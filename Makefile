@@ -47,6 +47,7 @@ $(BIN): $(OBJS)
 	$(LD) $(LDFLAGS) $(OBJS) -o $(BIN).elf
 	$(OBJDUMP) $(BIN).elf --disassemble-all > $(BIN).lst
 	$(OBJCOPY) -O binary -R .note -R .comment -S $(BIN).elf $@
+	$(OBJDUMP) -D $@ -b binary -m arm -EL > bootcode-out.lst
 
 %.o: %.S
 	$(CPP) $(ACPPFLAGS) $(CPPFLAGS) $< $*.tmp

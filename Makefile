@@ -28,7 +28,7 @@
 
 BIN = bootcode
 
-CROSS = arm-none-eabi
+CROSS ?= arm-none-eabi
 
 CPP     := $(CROSS)-cpp
 AS      := $(CROSS)-as

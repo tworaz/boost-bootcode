@@ -64,7 +64,7 @@ image_start:
 	.skip 7*4
 
 /*
- * Printing register value on the serial console in hexdecimal format.
+ * Print unsigned value on the serial console in hexdecimal format.
  * r0 - value to print
  * NOTE: r10 shound be set to base address of XScale UART port.
  */
@@ -207,7 +207,7 @@ image_start:
 
 	/*
 	 * Copy kernel to image load addr for each 512kb
-	 * copied diplay dot on the serial console.
+	 * copied, diplay dot on the serial console.
 	 */
 	mov	lr, r13
 1:	add	ip, r8, #0x80000

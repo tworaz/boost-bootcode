@@ -288,8 +288,10 @@ image_start:
 	 */
 	sub	pc, lr, #4
 
-	/* Data section */
-root_type:		.word	0x000001f7
+/*
+ * Some constants.
+ */
+root_type:		.word	0x000001f7 /* Seems to be unused */
 
 /*
  * ATAG list template.
@@ -310,20 +312,10 @@ atag_initrd2_start:	.word	INITRD_LOAD_ADDR
 atag_initrd2_size:	.word	INITRD_DEF_SIZE
 atag_cmdline:		.word	0x00000010
 			.word	ATAG_CMDLINE
-			.word	0x746f6f72
-			.word	0x65642f3d
-			.word	0x61722f76
-			.word	0x7772206d
-			.word	0x6e6f6320
-			.word	0x656c6f73
-			.word	0x7974743d
-			.word	0x2c304153
-			.word	0x32353131
-			.word	0x69203030
-			.word	0x3d74696e
-			.word	0x6e696c2f
-			.word	0x63727875
+
+			.asciz	"root=/dev/ram rw console=tty0 init=/linuxrc verbose"
 			.word	0x00000000
+
 			.word	0x00000000
 			.word	0x00000000
 atag_end:

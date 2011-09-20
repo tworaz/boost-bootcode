@@ -26,7 +26,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-BIN = bootcode
+BIN = bcode
 
 CROSS ?= arm-none-eabi
 
@@ -38,8 +38,8 @@ OBJCOPY := $(CROSS)-objcopy
 
 LDFLAGS = -T $(LDSCRIPT)
 
-LDSCRIPT = $(BIN).ld
-SOURCES  = $(BIN).S
+LDSCRIPT = bootcode.ld
+SOURCES  = bootcode.S
 
 OBJS = ${SOURCES:.S=.o}
 
@@ -47,7 +47,7 @@ $(BIN): $(OBJS)
 	$(LD) $(LDFLAGS) $(OBJS) -o $(BIN).elf
 	$(OBJDUMP) $(BIN).elf --disassemble-all > $(BIN).lst
 	$(OBJCOPY) -O binary -R .note -R .comment -S $(BIN).elf $@
-	$(OBJDUMP) -D $@ -b binary -m arm -EL > bootcode-out.lst
+	$(OBJDUMP) -D $@ -b binary -m arm -EL > $(BIN)-out.lst
 
 %.o: %.S
 	$(CPP) $(ACPPFLAGS) $(CPPFLAGS) $< $*.tmp
@@ -55,6 +55,6 @@ $(BIN): $(OBJS)
 	$(RM)  $*.tmp
 
 clean:
-	rm -f $(OBJS) $(BIN) *.elf *.bin *.lst
+	rm -f $(OBJS) $(BIN) *.elf *.bin *.lst *.tmp
 
 .PHONY = clean all

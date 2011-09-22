@@ -229,7 +229,7 @@ image_start:
 	ldr	r0, [r0, #244] /* Probably some structure holding hw info/specs */
 	str	r0, atag_mem_size
 	mov	r0, #0
-	ldr	r1, root_type
+	ldr	r1, mach_type	/* Setup machine type */
 	sub	r2, lr, #4	/* r2 = image load addr */
 	sub	r2, r2, #0x8000
 	add	r2, r2, #0x100	/* r2 = atag list start */
@@ -291,7 +291,7 @@ image_start:
 /*
  * Some constants.
  */
-root_type:		.word	0x000001f7 /* Seems to be unused */
+mach_type:		.word	0x000001f7 /* Should match netbookpro from arch/arm/tools/mach-types */
 
 /*
  * ATAG list template.

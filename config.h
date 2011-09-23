@@ -30,15 +30,28 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
+/* Bootcode version number. */
+#define BCODE_VERSION		1
+#define BCODE_VERSION_STR	"Psion Teklogix NetBook Pro open bootcode v1\n\r"
+
+/* Bootcode header magic number */
+#define BCODE_HDR_MAGIC		((0xBC0DE << 12) | (BCODE_VERSION))
+
+/* Addresses of some PXA255 peripherials */
 #define PXA_UART_BASE		0x40100000
 #define PXA_CLKMAN_BASE		0x41300000
 
+/* Must be the same as in arch/arm/tools/mach-types */
+#define NETBOOKPRO_MACH_TYPE	503
+
+/* Default page size. Used by ATAG_CORE. */
 #define PAGE_SIZE		4096
 
+/* Default memory configuration for ATAG_MEM */
 #define MEMORY_START		0xa0000000
 #define MEMORY_SIZE		(128 * 1024 * 1024)
 
-#define INITRD_LOAD_ADDR	0xa1000000
-#define INITRD_DEF_SIZE		(16*1024*1024)
+/* Physical location of ramdisk in memory. */
+#define INITRD_LOAD_ADDR	0xa2000000
 
 #endif /* !_CONFIG_H_ */

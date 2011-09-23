@@ -1,0 +1,5 @@
+*.o
+bcode
+bcode.elf
+bcode.lst
+bcode-out.lst

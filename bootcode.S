@@ -103,12 +103,14 @@ ENTRY(start)
 	bl	print_hex
 	PRINT_NEW_LINE
 
+#if notused
 	/* Print CP15 ARM Control register */
 	adr	r0, arm_ctrl_str
 	bl	print_string
 	mrc	p15, 0, r0, c1, c0, 0
 	bl	print_hex
 	PRINT_NEW_LINE
+#endif
 
 	/*
 	 * Calculate some usefull addresses.
@@ -128,6 +130,7 @@ ENTRY(start)
 	bl	print_string
 	mov	r0, r7
 	bl	print_hex
+	PRINT_NEW_LINE
 
 	/*
 	 * Copy kernel image to it's runtime destination.
@@ -164,11 +167,7 @@ ENTRY(start)
 	/*
 	 * Setup ATAG list in memory.
 	 */
-#if 1
 	sub	r2, r13, #4	/* r2 = image load addr */
-#else
-	ldr	r2, kern_exec_addr
-#endif
 	sub	r2, r2, #0x8000
 	add	r2, r2, #0x100	/* r2 = atag list start */
 	mov	r7, r2		/* r7 = atag list start */
@@ -215,6 +214,7 @@ ENTRY(start)
 
 	/* Set proper macine type. */
 	ldr	r1, mach_type
+	mov	r0, #0
 
 	/*
 	 * Execute the actual kernel! :)
@@ -328,20 +328,21 @@ atag_core:		.word	ATAG_CORE_SIZE
 			.word	0x00000001	/* flags */
 			.word	PAGE_SIZE	/* pagesize */
 			.word	0x00000000	/* rootdev */
+
 atag_mem:		.word	ATAG_MEM_SIZE
 			.word	ATAG_MEM
 atag_mem_size:		.word	MEMORY_SIZE
 atag_mem_start:		.word	MEMORY_START
+
 atag_initrd2:		.word	ATAG_INITRD2_SIZE
 			.word	ATAG_INITRD2
 atag_initrd2_start:	.word	INITRD_LOAD_ADDR
 atag_initrd2_size:	.word	0
-atag_cmdline:		.word	0x00000010
+
+atag_cmdline:		.word	15  /* (((cmdlen + 3) / 4) + 2) */
 			.word	ATAG_CMDLINE
-
-			.ascii	"root=/dev/ram rw console=tty0 init=/linuxrc verbose"
-			.word	0x00000000
-
+			.asciz	"root=/dev/ram rw console=tty0 init=/linuxrc verbose"
+/* ATAG_NONE */
 			.word	0x00000000
 			.word	0x00000000
 .align 4, 0

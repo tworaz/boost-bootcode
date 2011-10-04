@@ -237,10 +237,10 @@ ENTRY(print_hex)
 	addcs	r1, r1, #55 ; \
 	mov	r3, #0x80000 ; \
 	1: \
-	ldrb	r2, [r10, #20] ; \
+	ldrb	r2, [r10, #14] ; \
 	subs	r3, r3, #1 ; \
 	bmi	2f ; \
-	tst	r2, #0x40 ; \
+	tst	r2, #0x20 ; \
 	bne	1b ; \
 	2: \
 	strb	r1, [r10]
@@ -290,10 +290,10 @@ ENTRY(print_string)
 	beq	3f
 
 	mov	r3, #0x80000
-1:	ldrb	r2, [r10, #20]
+1:	ldrb	r2, [r10, #14]
 	subs	r3, r3, #1
 	bmi	2f
-	tst	r2, #0x40
+	tst	r2, #0x20
 	bne	1b
 2:	strb	r1, [r10]
 	b	print_string

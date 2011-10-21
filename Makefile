@@ -30,9 +30,12 @@ BIN = bcode
 
 CROSS ?= arm-none-eabi-
 
-ifeq ($(RAMDISK),yes)
-	CPPFLAGS := -DRAMDISK
+ifeq ($(RAMDISK), yes)
+	KERNEL_CMDLINE ?= "root=/dev/ram rw console=tty0 init=/sbin/init verbose"
+else
+	KERNEL_CMDLINE ?= "root=/dev/sda2 rw console=tty0 init=/sbin/init quiet"
 endif
+CPPFLAGS += -DKERNEL_CMDLINE=\"$(KERNEL_CMDLINE)\" -DCMDLINE_LEN=$(shell expr length $(KERNEL_CMDLINE))
 
 CPP     := $(CROSS)cpp
 AS      := $(CROSS)as

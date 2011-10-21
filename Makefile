@@ -26,6 +26,8 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+-include Makefile.config
+
 BIN = bcode
 
 CROSS ?= arm-none-eabi-

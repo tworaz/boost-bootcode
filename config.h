@@ -34,6 +34,15 @@
 #define BCODE_VERSION		1
 #define BCODE_VERSION_STR	"Psion Teklogix NetBook Pro open bootcode v1\n\r"
 
+/* Default kernel command line */
+#ifdef RAMDISK
+#define KERNEL_CMDLINE		"root=/dev/ram rw console=tty0 init=/sbin/init verbose"
+#define CMDLINE_LEN 		53
+#else
+#define KERNEL_CMDLINE		"root=/dev/sda2 rw console=tty0 init=/sbin/init quiet"
+#define CMDLINE_LEN 		53
+#endif /* RAMDISK */
+
 /* Bootcode header magic number */
 #define BCODE_HDR_MAGIC		((0xBC0DE << 12) | (BCODE_VERSION))
 

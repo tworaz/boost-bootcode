@@ -103,15 +103,6 @@ ENTRY(start)
 	bl	print_hex
 	PRINT_NEW_LINE
 
-#if notused
-	/* Print CP15 ARM Control register */
-	adr	r0, arm_ctrl_str
-	bl	print_string
-	mrc	p15, 0, r0, c1, c0, 0
-	bl	print_hex
-	PRINT_NEW_LINE
-#endif
-
 	/*
 	 * Calculate some usefull addresses.
 	 */
@@ -150,12 +141,10 @@ ENTRY(start)
 	/*
 	 * Extract some HW params from BooSt.
 	 */
-#if notused
 	mov	r0, #MEMORY_START
 	ldr	r0, [r0, #244] /* Probably some structure holding hw info/specs */
 	str	r0, atag_mem_size
 	mov	r0, #0
-#endif
 
 	/*
 	 * Configure ramdisk size ATAG.
@@ -311,8 +300,6 @@ welcome_str:		.asciz	BCODE_VERSION_STR
 .align 4,0
 img_load_str:		.asciz	"Boot image load addr: 0x"
 .align 4,0
-arm_ctrl_str:		.asciz	"ARM CP15 Control reg value: 0x"
-.align 4,0
 kernel_copy_from_str:	.asciz	"Copying kernel image from 0x"
 .align 4,0
 kernel_copy_to_str:	.asciz	" to 0x"
@@ -339,9 +326,9 @@ atag_initrd2:		.word	ATAG_INITRD2_SIZE
 atag_initrd2_start:	.word	INITRD_LOAD_ADDR
 atag_initrd2_size:	.word	0
 
-atag_cmdline:		.word	15  /* (((cmdlen + 3) / 4) + 2) */
+atag_cmdline:		.word	(((CMDLINE_LEN + 3) / 4) + 2)
 			.word	ATAG_CMDLINE
-			.asciz	"root=/dev/ram rw console=tty0 init=/linuxrc verbose"
+			.asciz	KERNEL_CMDLINE
 /* ATAG_NONE */
 			.word	0x00000000
 			.word	0x00000000

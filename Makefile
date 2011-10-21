@@ -28,13 +28,17 @@
 
 BIN = bcode
 
-CROSS ?= arm-none-eabi
+CROSS ?= arm-none-eabi-
 
-CPP     := $(CROSS)-cpp
-AS      := $(CROSS)-as
-LD      := $(CROSS)-ld
-OBJDUMP := $(CROSS)-objdump
-OBJCOPY := $(CROSS)-objcopy
+ifeq ($(RAMDISK),yes)
+	CPPFLAGS := -DRAMDISK
+endif
+
+CPP     := $(CROSS)cpp
+AS      := $(CROSS)as
+LD      := $(CROSS)ld
+OBJDUMP := $(CROSS)objdump
+OBJCOPY := $(CROSS)objcopy
 
 LDFLAGS = -T $(LDSCRIPT)
 

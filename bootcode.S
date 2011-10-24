@@ -201,7 +201,7 @@ ENTRY(start)
 	cmp	r5, r6
 	bcc	1b
 
-	/* Set proper macine type. */
+	/* Set proper machine type. */
 	ldr	r1, mach_type
 	mov	r0, #0
 
